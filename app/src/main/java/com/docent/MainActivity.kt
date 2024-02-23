@@ -1,6 +1,7 @@
 package com.docent
 
 import android.annotation.SuppressLint
+import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.docent.databinding.ActivityMainBinding
@@ -8,14 +9,20 @@ import com.docent.databinding.ActivityMainBinding
 
 class MainActivity: BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
     private lateinit var webView: WebView
-    private val url = "https://docent.zip/loginpage"
+    private val url = "https://docent.zip/"
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun initAfterBinding() {
+        // 상단바 margin 추가
+        val params = binding.webView.layoutParams as ViewGroup.MarginLayoutParams
+        params.topMargin = getStatusBarHeight(this);
+        binding.webView.layoutParams = params
+
         webView = binding.webView;
         webView.loadUrl(url);
 
         webView.settings.javaScriptEnabled = true
+        webView.settings.domStorageEnabled = true;
         webView.addJavascriptInterface(JavaScriptInterface(this), "Android")
         webView.webViewClient = webViewClient
 

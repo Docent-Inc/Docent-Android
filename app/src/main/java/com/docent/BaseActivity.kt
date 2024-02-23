@@ -1,5 +1,7 @@
 package com.docent
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -56,5 +58,18 @@ abstract class BaseActivity<T: ViewBinding>(private val inflate: (LayoutInflater
 
     fun showKeyboardUp(v: View) {
         imm?.showSoftInput(v, InputMethodManager.SHOW_IMPLICIT)
+    }
+
+    /**
+     * 상단 상태바 높이 계산 후 DP로 반환
+     * @param context Context
+     * @return Int(DP값)
+     */
+    @SuppressLint("DiscouragedApi", "InternalInsetResource")
+    fun getStatusBarHeight(context: Context): Int {
+        val resourceId = context.resources.getIdentifier("status_bar_height", "dimen", "android")
+
+        return if (resourceId > 0) context.resources.getDimensionPixelSize(resourceId)
+        else 0
     }
 }
